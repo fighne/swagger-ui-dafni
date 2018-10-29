@@ -1,0 +1,884 @@
+
+##############################################################################
+# Author: Steven Pickering                                                   #
+# Created On: 10/08/2018                                                     #
+# Description: Swagger 2.0 API specification for the National Infrastructure #
+# Database (NID) Publication Service component of DAFNI. The Publication     #
+# Service uploads all of the information related to a dataset. This includes #
+# the data definition and the dataset itself.                                #
+##############################################################################
+
+#################################################################
+# Swagger Definition, Validated Using https://editor.swagger.io #
+#################################################################
+
+# Swagger Version
+
+swagger: "2.0"
+
+# Information Block
+
+info:
+  version: "1.0"
+  title: DAFNI NID Data Access API
+  description: This will provide an API for the user to upload information about a dataset.
+  termsOfService: http://www.dafni.ac.uk/api_terms_of_service
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: DAFNI Support
+    email: support@dafni.ac.uk
+    url:  http://www.dafni.ac.uk/contact_us
+    
+# Host Running The API And The Relative Path For API Calls
+
+host: vm141.nubes.stfc.ac.uk
+basePath: /
+
+# Communication Schemes That Can Be Used
+
+schemes:
+- http
+- https
+
+# Consumes JSON Formatted String Via The API Calls
+
+consumes:
+- application/json
+
+# Produces JSON Formatted Strings As Out From The API Calls
+
+produces:
+- application/json
+
+#  Links To External Documents
+
+externalDocs:
+  description: The DAFNI NID Publication Service API Documentation
+  url: http://www.dafni.ac.uk/api/nid
+
+#########
+# Paths #
+#########
+
+paths:                          
+
+#============================================#
+# Data Store Request Status View One or Many #
+#============================================#
+
+  /publicationworkflow/{id}:
+    get:
+      summary: View Single Publication Workflow(s)
+      description: Queries the publication service and returns the status of the publication workflow.
+      operationId: PublicationServiceViewOne
+      tags:
+      - PublicationWorkFlow
+      parameters:
+        - name: id
+          in: path
+          description: Workflow id of the publication workflow.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The publication workflow record.
+          schema:
+            $ref: "#/definitions/publicationworkflow"
+        400:
+          description: Invalid status request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        default:
+          description: Unexpected error occurred accessing the publication workflow.
+          schema:
+            $ref: "#/definitions/httperror"
+
+#=================#
+# Request Storage #
+#=================#
+
+  /publicationworkflow:
+    get:
+      summary: View Publication Workflows
+      description: Queries the publication service and returns the status of the publication workflow.
+      operationId: PublicationServiceViewMany
+      tags:
+      - PublicationWorkFlow
+      responses:
+        200:
+          description: The publication workflow record.
+          schema:
+            $ref: "#/definitions/publicationworkflow"
+        400:
+          description: Invalid status request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        default:
+          description: Unexpected error occurred accessing the publication workflow.
+          schema:
+            $ref: "#/definitions/httperror"
+
+    post:
+      summary: Requests Temporary Storage For The Dataset And Associated Files.
+      description: Creates a bucket in the storage device and creates assigned URLs for each of the major files.
+      operationId: PublicationServiceRequestStorage
+      tags:
+      - publicationservice
+      parameters:
+        - in: body
+          name: workflow
+          description: "Create a new temporary storage record"
+          schema:
+             $ref: "#/definitions/publicationworkflowPost"
+      responses:
+        200:
+          description: The requested storage was allocated..
+          schema:
+            $ref: "#/definitions/cloudurls"
+        400:
+          description: Invalid storage request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        401:
+          description: User not authorised to request storage.
+          schema:
+            $ref: "#/definitions/httpauthorisationerror"
+        404:
+          description: Resource not found.
+          schema:
+            $ref: "#/definitions/httpnotfounderror"
+        default:
+          description: Unexpected error occurred requesting storage.
+          schema:
+            $ref: "#/definitions/httperror"
+                  
+#===============#
+# Update Status #
+#===============#
+
+  /publicationworkflow/{JobId}/Status:
+    put:
+      summary: Updates The Status Of The Publication Workflow.
+      description: Updates a record containing the status of each component of the upload process. This includes the data definition as well as the dataset.
+      operationId: PublicationServiceUpdateStatus
+      tags:
+      - publicationservice
+      parameters:
+        - name: JobId
+          in: path
+          description: The unique numeric identifier for this publication workflow.
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: pointofcontact
+          description: "Update an existing contact record"
+          schema:
+              $ref: "#/definitions/statusUpdateBody"
+        
+      responses:
+        200:
+          description: The publication workflow was updated correctly.
+          schema:
+            $ref: "#/definitions/publicationworkflow"
+        400:
+          description: Invalid publocation workflow request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        401:
+          description: User not authorised to update publication workflow.
+          schema:
+            $ref: "#/definitions/httpauthorisationerror"
+        404:
+          description: Resource not found.
+          schema:
+            $ref: "#/definitions/httpnotfounderror"
+        default:
+          description: Unexpected error occurred updating publication workflow.
+          schema:
+            $ref: "#/definitions/httperror"
+            
+###############
+# Definitions #
+###############
+
+definitions:
+
+#==================#
+# HTTP Error Codes #
+#==================#
+
+  httperror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Generic, error. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Generic Error Message
+
+  httpbadrequesterror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Bad request. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Bad Request Error Message
+
+  httpauthorisationerror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Not authorised. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Not Authorised Error Message
+        
+  httpnotfounderror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Not found. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Not Found Error Message
+
+#======================#
+# Publication Workflow #
+#======================#
+
+#---------------------------------------------------------------------#
+# Each Jump In Status Can Only Change To The Next One In The Sequence #
+#---------------------------------------------------------------------#
+
+#--------+------------------------------+---------------------------#
+# Status | Meaning                      | Dependencies              #
+#--------+------------------------------+---------------------------#
+#   0    | Not Started Yet              |                           #
+#   1    | Cloud URLs Created           |                           #
+#   2    | File Uploading Started       | Cloud URLs                #
+#--------+------------------------------+---------------------------#
+#   3    | File Uploading Completed     |                           #
+#   4    | Metadata Created             |                           #
+#   5    | CSV Validation Started       |                           #
+#   6    | CSV Validation Completed     |                           #
+#   7    | CSV Analysis Started         |                           #
+#   8    | CSV Analysis Completed       |                           #
+#   9    | CSV Mapping Started          |                           #
+#   10   | CSV Mapping Completed        |                           #
+#   11   | Database Insertion Started   | Metadata Id               #
+#   12   | Database Insertion Completed |                           #
+#   13   | Storage Information Created  | Object URL, Metadata Id   #
+#--------+------------------------------+---------------------------#
+
+  publicationworkflowPost:
+    description: The schema for a publication workflow create/post
+    type: object
+    properties:
+      datasetFileName:
+        description: The name of the file containing the dataset.
+        type: string
+        maxLength: 100
+        example: dataset.csv
+      dataDefinitionFileName:
+        description: The name of the file containing the data definition.
+        type: string
+        maxLength: 100
+        example: definition.dat
+      schemaFileName:
+        description: The name of the file containing the dataset schema.
+        type: string
+        maxLength: 100
+        example: schema.dat
+      additionalFileNames:
+        description: The names of any additional files associated with the dataset.
+        type: array
+        items:
+          type: string
+          maxLength: 100
+        example: [ 'file1.dat', 'file2.dat', 'file3.dat' ]
+            
+  publicationworkflow:
+    description: The current status of the publication workflow.
+    type: object
+    properties:
+      workflowId: 
+        description: The unique numeric identifier for this workflow.
+        type: integer
+        format: int64
+        example: 4
+      datasetFileName:
+        description: The name of the file containing the dataset.
+        type: string
+        maxLength: 100
+        example: dataset.csv
+      dataDefinitionFileName:
+        description: The name of the file containing the data definition.
+        type: string
+        maxLength: 100
+        example: definition.dat
+      schemaFileName:
+        description: The name of the file containing the dataset schema.
+        type: string
+        maxLength: 100
+        example: schema.dat
+      additionalFileNames:
+        description: The names of any additional files associated with the dataset.
+        type: array
+        items:
+          type: string
+          maxLength: 100
+        example: [ 'file1.dat', 'file2.dat', 'file3.dat' ]
+      datasetURL:
+        description: The URL containing the dataset.
+        type: string
+        maxLength: 500
+        example: dataset.csv
+      dataDefinitionURL:
+        description: The URL containing the data definition.
+        type: string
+        maxLength: 500
+        example: definition.dat
+      schemaURL:
+        description: The URL containing the dataset schema.
+        type: string
+        maxLength: 500
+        example: schema.dat
+      additionalURL:
+        description: The URLs of any additional files associated with the dataset.
+        type: array
+        items:
+          type: string
+          maxLength: 500
+        example: [ 'http://vm141.nubes.stfc.ac.uk:9000/bucketname/file1.dat', 'http://vm141.nubes.stfc.ac.uk:9000/bucketname/file2.dat', 'http://vm141.nubes.stfc.ac.uk:9000/bucketname/file3.dat' ]
+      status:
+        description: The current status of the publication workflow.
+        type: integer
+        format: int64
+        enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+        example: 0
+      logs:
+        description: Logged messages detailing the failure/success of each stage of the workflow.
+        type: array
+        items:
+          type: string
+          example: [ 'Metadata Created', 'Storage Information Created', 'Bucket Created' ]
+
+  statusUpdateBody:
+    type: object
+    properties:
+      logMessages:
+        description: Any useful messages
+        type: array
+        items:
+          type: string
+      status:
+        description: The URL new status upload the dataset to.
+        type: string
+        format: url
+
+#============#
+# Cloud URLs #
+#============#
+
+  cloudurls:
+    description: Pre-signed URLs returned from the cloud storage device.
+    type: object
+    properties:
+      workflowId:
+        description: The unique numeric identifier for the publication workflow.
+        type: 
+##############################################################################
+# Author: Steven Pickering                                                   #
+# Created On: 10/08/2018                                                     #
+# Description: Swagger 2.0 API specification for the National Infrastructure #
+# Database (NID) Publication Service component of DAFNI. The Publication     #
+# Service uploads all of the information related to a dataset. This includes #
+# the data definition and the dataset itself.                                #
+##############################################################################
+
+#################################################################
+# Swagger Definition, Validated Using https://editor.swagger.io #
+#################################################################
+
+# Swagger Version
+
+swagger: "2.0"
+
+# Information Block
+
+info:
+  version: "1.0"
+  title: DAFNI NID Data Access API
+  description: This will provide an API for the user to upload information about a dataset.
+  termsOfService: http://www.dafni.ac.uk/api_terms_of_service
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: DAFNI Support
+    email: support@dafni.ac.uk
+    url:  http://www.dafni.ac.uk/contact_us
+    
+# Host Running The API And The Relative Path For API Calls
+
+host: vm141.nubes.stfc.ac.uk
+basePath: /
+
+# Communication Schemes That Can Be Used
+
+schemes:
+- http
+- https
+
+# Consumes JSON Formatted String Via The API Calls
+
+consumes:
+- application/json
+
+# Produces JSON Formatted Strings As Out From The API Calls
+
+produces:
+- application/json
+
+#  Links To External Documents
+
+externalDocs:
+  description: The DAFNI NID Publication Service API Documentation
+  url: http://www.dafni.ac.uk/api/nid
+
+#########
+# Paths #
+#########
+
+paths:                          
+
+#============================================#
+# Data Store Request Status View One or Many #
+#============================================#
+
+  /publicationworkflow/{id}:
+    get:
+      summary: View Single Publication Workflow(s)
+      description: Queries the publication service and returns the status of the publication workflow.
+      operationId: PublicationServiceViewOne
+      tags:
+      - PublicationWorkFlow
+      parameters:
+        - name: id
+          in: path
+          description: Workflow id of the publication workflow.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: The publication workflow record.
+          schema:
+            $ref: "#/definitions/publicationworkflow"
+        400:
+          description: Invalid status request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        default:
+          description: Unexpected error occurred accessing the publication workflow.
+          schema:
+            $ref: "#/definitions/httperror"
+
+#=================#
+# Request Storage #
+#=================#
+
+  /publicationworkflow:
+    get:
+      summary: View Publication Workflows
+      description: Queries the publication service and returns the status of the publication workflow.
+      operationId: PublicationServiceViewMany
+      tags:
+      - PublicationWorkFlow
+      responses:
+        200:
+          description: The publication workflow record.
+          schema:
+            $ref: "#/definitions/publicationworkflow"
+        400:
+          description: Invalid status request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        default:
+          description: Unexpected error occurred accessing the publication workflow.
+          schema:
+            $ref: "#/definitions/httperror"
+
+    post:
+      summary: Requests Temporary Storage For The Dataset And Associated Files.
+      description: Creates a bucket in the storage device and creates assigned URLs for each of the major files.
+      operationId: PublicationServiceRequestStorage
+      tags:
+      - PublicationWorkFlow
+      parameters:
+        - in: body
+          name: workflow
+          description: "Create a new temporary storage record"
+          schema:
+             $ref: "#/definitions/publicationworkflowPost"
+      responses:
+        200:
+          description: The requested storage was allocated..
+          schema:
+            $ref: "#/definitions/cloudurls"
+        400:
+          description: Invalid storage request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        401:
+          description: User not authorised to request storage.
+          schema:
+            $ref: "#/definitions/httpauthorisationerror"
+        404:
+          description: Resource not found.
+          schema:
+            $ref: "#/definitions/httpnotfounderror"
+        default:
+          description: Unexpected error occurred requesting storage.
+          schema:
+            $ref: "#/definitions/httperror"
+                  
+#===============#
+# Update Status #
+#===============#
+
+  /publicationworkflow/{JobId}/Status:
+    put:
+      summary: Updates The Status Of The Publication Workflow.
+      description: Updates a record containing the status of each component of the upload process. This includes the data definition as well as the dataset.
+      operationId: PublicationServiceUpdateStatus
+      tags:
+      - PublicationWorkFlow
+      parameters:
+        - name: JobId
+          in: path
+          description: The unique numeric identifier for this publication workflow.
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: Status
+          description: "Update an existing contact record"
+          schema:
+              $ref: "#/definitions/statusUpdateBody"
+        
+      responses:
+        200:
+          description: The publication workflow was updated correctly.
+          schema:
+            $ref: "#/definitions/publicationworkflow"
+        400:
+          description: Invalid publocation workflow request.
+          schema:
+            $ref: "#/definitions/httpbadrequesterror"
+        401:
+          description: User not authorised to update publication workflow.
+          schema:
+            $ref: "#/definitions/httpauthorisationerror"
+        404:
+          description: Resource not found.
+          schema:
+            $ref: "#/definitions/httpnotfounderror"
+        default:
+          description: Unexpected error occurred updating publication workflow.
+          schema:
+            $ref: "#/definitions/httperror"
+            
+###############
+# Definitions #
+###############
+
+definitions:
+
+#==================#
+# HTTP Error Codes #
+#==================#
+
+  httperror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Generic, error. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Generic Error Message
+
+  httpbadrequesterror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Bad request. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Bad Request Error Message
+
+  httpauthorisationerror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Not authorised. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Not Authorised Error Message
+        
+  httpnotfounderror:
+    description: An object returning the HTTP error code and associated information.
+    type: object
+    properties:
+      code:
+        description: The HTTP error code showing the failure of the HTTP request.
+        type: integer
+        format: int64
+        example: 0
+      message:
+        description: Not found. A more detailed description of the error.
+        type: string
+        maxLength: 100
+        example: Not Found Error Message
+
+#======================#
+# Publication Workflow #
+#======================#
+
+#---------------------------------------------------------------------#
+# Each Jump In Status Can Only Change To The Next One In The Sequence #
+#---------------------------------------------------------------------#
+
+#--------+------------------------------+---------------------------#
+# Status | Meaning                      | Dependencies              #
+#--------+------------------------------+---------------------------#
+#   0    | Not Started Yet              |                           #
+#   1    | Cloud URLs Created           |                           #
+#   2    | File Uploading Started       | Cloud URLs                #
+#--------+------------------------------+---------------------------#
+#   3    | File Uploading Completed     |                           #
+#   4    | Metadata Created             |                           #
+#   5    | CSV Validation Started       |                           #
+#   6    | CSV Validation Completed     |                           #
+#   7    | CSV Analysis Started         |                           #
+#   8    | CSV Analysis Completed       |                           #
+#   9    | CSV Mapping Started          |                           #
+#   10   | CSV Mapping Completed        |                           #
+#   11   | Database Insertion Started   | Metadata Id               #
+#   12   | Database Insertion Completed |                           #
+#   13   | Storage Information Created  | Object URL, Metadata Id   #
+#--------+------------------------------+---------------------------#
+
+  publicationworkflowPost:
+    description: The schema for a publication workflow create/post
+    type: object
+    properties:
+      datasetFileName:
+        description: The name of the file containing the dataset.
+        type: string
+        maxLength: 100
+        example: dataset.csv
+      dataDefinitionFileName:
+        description: The name of the file containing the data definition.
+        type: string
+        maxLength: 100
+        example: definition.dat
+      schemaFileName:
+        description: The name of the file containing the dataset schema.
+        type: string
+        maxLength: 100
+        example: schema.dat
+      additionalFileNames:
+        description: The names of any additional files associated with the dataset.
+        type: array
+        items:
+          type: string
+          maxLength: 100
+        example: [ 'file1.dat', 'file2.dat', 'file3.dat' ]
+            
+  publicationworkflow:
+    description: The current status of the publication workflow.
+    type: object
+    properties:
+      workflowId: 
+        description: The unique numeric identifier for this workflow.
+        type: integer
+        format: int64
+        example: 4
+      datasetFileName:
+        description: The name of the file containing the dataset.
+        type: string
+        maxLength: 100
+        example: dataset.csv
+      dataDefinitionFileName:
+        description: The name of the file containing the data definition.
+        type: string
+        maxLength: 100
+        example: definition.dat
+      schemaFileName:
+        description: The name of the file containing the dataset schema.
+        type: string
+        maxLength: 100
+        example: schema.dat
+      additionalFileNames:
+        description: The names of any additional files associated with the dataset.
+        type: array
+        items:
+          type: string
+          maxLength: 100
+        example: [ 'file1.dat', 'file2.dat', 'file3.dat' ]
+      datasetURL:
+        description: The URL containing the dataset.
+        type: string
+        maxLength: 500
+        example: dataset.csv
+      dataDefinitionURL:
+        description: The URL containing the data definition.
+        type: string
+        maxLength: 500
+        example: definition.dat
+      schemaURL:
+        description: The URL containing the dataset schema.
+        type: string
+        maxLength: 500
+        example: schema.dat
+      additionalURL:
+        description: The URLs of any additional files associated with the dataset.
+        type: array
+        items:
+          type: string
+          maxLength: 500
+        example: [ 'http://vm141.nubes.stfc.ac.uk:9000/bucketname/file1.dat', 'http://vm141.nubes.stfc.ac.uk:9000/bucketname/file2.dat', 'http://vm141.nubes.stfc.ac.uk:9000/bucketname/file3.dat' ]
+      status:
+        description: The current status of the publication workflow.
+        type: integer
+        format: int64
+        enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+        example: 0
+      logs:
+        description: Logged messages detailing the failure/success of each stage of the workflow.
+        type: array
+        items:
+          type: string
+          example: [ 'Metadata Created', 'Storage Information Created', 'Bucket Created' ]
+
+  statusUpdateBody:
+    type: object
+    properties:
+      logMessages:
+        description: Any useful messages
+        type: array
+        items:
+          type: string
+      status:
+        description: The URL new status upload the dataset to.
+        type: string
+        format: url
+
+#============#
+# Cloud URLs #
+#============#
+
+  cloudurls:
+    description: Pre-signed URLs returned from the cloud storage device.
+    type: object
+    properties:
+      workflowId:
+        description: The unique numeric identifier for the publication workflow.
+        type: integer
+        format: int64
+        example: 76
+      dataDefinitionURL:
+        description: The URL to upload the data definition to.
+        type: string
+        format: url
+        example: 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/data.definition?X-Amz-Algorithm=AWS4-HMAC-SHA256'
+      datasetURL:
+        description: The URL to upload the dataset to.
+        type: string
+        format: url
+        example: 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/data.set?X-Amz-Algorithm=AWS4-HMAC-SHA256'
+      schemaURL:
+        description: The URL to upload the schema to.
+        type: string
+        format: url
+        example: 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/data.schema?X-Amz-Algorithm=AWS4-HMAC-SHA256'
+      additionalURLs:
+        description: The URLS to upload the additional files to.
+        type: array
+        items:
+          type: string
+          format: url
+        example: [ 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/test1.dat?X-Amz-Algorithm=AWS4-HMAC-SHA256', 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/test2.dat?X-Amz-Algorithm=AWS4-HMAC-SHA256' ]
+
+        format: int64
+        example: 76
+      dataDefinitionURL:
+        description: The URL to upload the data definition to.
+        type: string
+        format: url
+        example: 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/data.definition?X-Amz-Algorithm=AWS4-HMAC-SHA256'
+      datasetURL:
+        description: The URL to upload the dataset to.
+        type: string
+        format: url
+        example: 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/data.set?X-Amz-Algorithm=AWS4-HMAC-SHA256'
+      schemaURL:
+        description: The URL to upload the schema to.
+        type: string
+        format: url
+        example: 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/data.schema?X-Amz-Algorithm=AWS4-HMAC-SHA256'
+      additionalURLs:
+        description: The URLS to upload the additional files to.
+        type: array
+        items:
+          type: string
+          format: url
+        example: [ 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/test1.dat?X-Amz-Algorithm=AWS4-HMAC-SHA256', 'http://vm141.nubes.stfc.ac.uk:9000/mybucketname/test2.dat?X-Amz-Algorithm=AWS4-HMAC-SHA256' ]
