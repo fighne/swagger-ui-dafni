@@ -1,682 +1,698 @@
----
-swagger: "2.0"
+##############################################################################
+# Author: Steven Pickering                                                   #
+# Created On: 10/08/2018                                                     #
+# Description: Swagger 2.0 API specification for the National Infrastructure #
+# Database (NID) Publication Service component of DAFNI. The Publication     #
+# Service uploads all of the information related to a dataset. This includes #
+# the data definition and the dataset itself.                                #
+##############################################################################
+
+#################################################################
+# Swagger Definition, Validated Using https://editor.swagger.io #
+#################################################################
+
+# Swagger Version
+
+swagger: '2.0'
+
+# Information Block
+
 info:
-  description: "This will provide the back-end services to manage the NID metadata\
-    \ data catalogue via the access api."
-  version: "1.0"
-  title: "DAFNI NID API Access API"
-  termsOfService: "http://www.dafni.ac.uk/api_terms_of_service"
+  description: This will provide the back-end services to manage the NID metadata
+    data catalogue via the access api.
+  version: '1.0'
+  title: DAFNI NID API Access API
+  termsOfService: http://www.dafni.ac.uk/api_terms_of_service
   contact:
-    name: "DAFNI Support"
-    url: "http://www.dafni.ac.uk/contact_us"
-    email: "support@dafni.ac.uk"
+    name: DAFNI Support
+    url: http://www.dafni.ac.uk/contact_us
+    email: support@dafni.ac.uk
   license:
-    name: "Apache 2.0"
-    url: "https://www.apache.org/licenses/license-2.0.html"
-host: "nid.dafni.ac.uk"
-basePath: "/"
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/license-2.0.html
+host: dev.dafni.ac.uk
+basePath: /
 schemes:
-- "http"
-- "https"
+- http
+- https
 consumes:
-- "application/json"
+- application/json
 produces:
-- "application/json"
+- application/json
 paths:
   /MetaData/{id}:
     get:
       tags:
-      - "Metadata"
-      summary: "Display Single Metadata"
-      description: "Queries the database for the specified record and returns a JSON\
-        \ formatted string containg the metadata."
-      operationId: "ViewOneMetadata"
+      - Metadata
+      summary: Display Single Metadata
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the metadata.
+      operationId: ViewOneMetadata
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the metadata."
+      - name: id
+        in: path
+        description: ID of the metadata.
         required: true
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
       responses:
         200:
-          description: "Successfully viewed the metadata."
+          description: Successfully viewed the metadata.
           schema:
-            $ref: "#/definitions/metadataWithId"
+            $ref: '#/definitions/metadataWithId'
         400:
-          description: "Invalid metadata request."
+          description: Invalid metadata request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
-          description: "Metadata not found."
+          description: Metadata not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
-          description: "Unexpected error occurred accessing metadata."
+          description: Unexpected error occurred accessing metadata.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
   /MetaData:
     get:
       tags:
-      - "Metadata"
-      summary: "Display All Metadata"
-      description: "Queries the database for the specified record and returns a JSON\
-        \ formatted string containg the metadata."
-      operationId: "ViewAllMetadata"
+      - Metadata
+      summary: Display All Metadata
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the metadata.
+      operationId: ViewAllMetadata
       parameters: []
       responses:
         200:
-          description: "Successfully viewed the metadata."
+          description: Successfully viewed the metadata.
           schema:
-            $ref: "#/definitions/metadataWithId"
+            $ref: '#/definitions/metadataWithId'
         400:
-          description: "Invalid metadata request."
+          description: Invalid metadata request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
-          description: "Metadata not found."
+          description: Metadata not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
-          description: "Unexpected error occurred accessing metadata."
+          description: Unexpected error occurred accessing metadata.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
   /Jobs/{id}:
     get:
       tags:
-      - "Retrieval Task"
-      summary: "View Single Status"
-      description: "Queries the data store and returns the status of the retrieval\
-        \ task."
-      operationId: "RequestStatusViewOne"
+      - Retrieval Task
+      summary: View Single Status
+      description: Queries the data store and returns the status of the retrieval
+        task.
+      operationId: RequestStatusViewOne
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the Job workflow."
+      - name: id
+        in: path
+        description: ID of the Job workflow.
         required: true
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
       responses:
         200:
-          description: "Status of the dataset retrieval task."
+          description: Status of the dataset retrieval task.
           schema:
-            $ref: "#/definitions/retrievaltaskWithId"
+            $ref: '#/definitions/retrievaltaskWithId'
         400:
-          description: "Invalid status request."
+          description: Invalid status request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
-          description: "Unexpected error occurred accessing dataset retrieval task."
+          description: Unexpected error occurred accessing dataset retrieval task.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
   /Jobs:
     get:
       tags:
-      - "Jobs"
-      summary: "View Many Jobs"
-      description: "Queries the data store and returns the retrieval tasks."
-      operationId: "JobsViewMany"
+      - Jobs
+      summary: View Many Jobs
+      description: Queries the data store and returns the retrieval tasks.
+      operationId: JobsViewMany
       parameters: []
       responses:
         200:
-          description: "Status of the dataset retrieval tasks."
+          description: Status of the dataset retrieval tasks.
           schema:
-            type: "array"
+            type: array
             items:
-              $ref: "#/definitions/retrievalTask"
+              $ref: '#/definitions/retrievalTask'
         default:
-          description: "Unexpected error occurred accessing dataset retrieval tasks."
+          description: Unexpected error occurred accessing dataset retrieval tasks.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
     post:
       tags:
-      - "Jobs"
-      summary: "Creates The Job"
-      description: "Create a new job - status either \"Running\", \"Completed\" or\
-        \ \"Failed\"."
-      operationId: "CreateJob"
+      - Jobs
+      summary: Creates The Job
+      description: Create a new job - status either "Running", "Completed" or "Failed".
+      operationId: CreateJob
       parameters:
-      - in: "body"
-        name: "metadata"
-        description: "Create a new job/retrieval task record"
+      - in: body
+        name: metadata
+        description: Create a new job/retrieval task record
         required: false
         schema:
-          $ref: "#/definitions/retrievalTaskForPost"
+          $ref: '#/definitions/retrievalTaskForPost'
       responses:
         200:
-          description: "The entire dataset retrieval task including the updated status."
+          description: The entire dataset retrieval task including the updated status.
           schema:
-            $ref: "#/definitions/retrievaltaskWithId"
+            $ref: '#/definitions/retrievaltaskWithId'
         400:
-          description: "Invalid status request."
+          description: Invalid status request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
-          description: "Unexpected error occurred accessing dataset retrieval task."
+          description: Unexpected error occurred accessing dataset retrieval task.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
   /StorageInformation/{id}:
     get:
       tags:
-      - "Data Store"
-      summary: "View Single Storage Information"
-      description: "Queries the data store and returns the storage information of\
-        \ the specified dataset."
-      operationId: "StorageInformationViewOne"
+      - Data Store
+      summary: View Single Storage Information
+      description: Queries the data store and returns the storage information of the
+        specified dataset.
+      operationId: StorageInformationViewOne
       parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the storage info record."
+      - name: id
+        in: path
+        description: ID of the storage info record.
         required: true
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
       responses:
         200:
-          description: "The storage information for the specified dataset."
+          description: The storage information for the specified dataset.
           schema:
-            $ref: "#/definitions/storageinformationWithId"
+            $ref: '#/definitions/storageinformationWithId'
         400:
-          description: "Invalid storage information request."
+          description: Invalid storage information request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
-          description: "Unexpected error occurred accessing the storage information."
+          description: Unexpected error occurred accessing the storage information.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
   /StorageInformation:
     get:
       tags:
-      - "Data Store"
-      summary: "View Many Storage Information"
-      description: "Queries the data store and returns the storage information."
-      operationId: "StorageInformationViewMany"
+      - Data Store
+      summary: View Many Storage Information
+      description: Queries the data store and returns the storage information.
+      operationId: StorageInformationViewMany
       parameters: []
       responses:
         200:
-          description: "The storage information for the datasets."
+          description: The storage information for the datasets.
           schema:
-            type: "array"
+            type: array
             items:
-              $ref: "#/definitions/storageinformationWithId"
+              $ref: '#/definitions/storageinformationWithId'
         default:
-          description: "Unexpected error occurred accessing the storage information."
+          description: Unexpected error occurred accessing the storage information.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 definitions:
   httperror:
-    type: "object"
+    type: object
     properties:
       code:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 0
-        description: "The HTTP error code showing the failure of the HTTP request."
+        description: The HTTP error code showing the failure of the HTTP request.
       message:
-        type: "string"
-        example: "Generic Error Message"
-        description: "Generic, error. A more detailed description of the error."
+        type: string
+        example: Generic Error Message
+        description: Generic, error. A more detailed description of the error.
         maxLength: 100
-    description: "An object returning the HTTP error code and associated information."
+    description: An object returning the HTTP error code and associated information.
   httpbadrequesterror:
-    type: "object"
+    type: object
     properties:
       code:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 0
-        description: "The HTTP error code showing the failure of the HTTP request."
+        description: The HTTP error code showing the failure of the HTTP request.
       message:
-        type: "string"
-        example: "Bad Request Error Message"
-        description: "Bad request. A more detailed description of the error."
+        type: string
+        example: Bad Request Error Message
+        description: Bad request. A more detailed description of the error.
         maxLength: 100
-    description: "An object returning the HTTP error code and associated information."
+    description: An object returning the HTTP error code and associated information.
   httpnotfounderror:
-    type: "object"
+    type: object
     properties:
       code:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 0
-        description: "The HTTP error code showing the failure of the HTTP request."
+        description: The HTTP error code showing the failure of the HTTP request.
       message:
-        type: "string"
-        example: "Not Found Error Message"
-        description: "Not found. A more detailed description of the error."
+        type: string
+        example: Not Found Error Message
+        description: Not found. A more detailed description of the error.
         maxLength: 100
-    description: "An object returning the HTTP error code and associated information."
+    description: An object returning the HTTP error code and associated information.
   retrievaltaskWithId:
-    type: "object"
+    type: object
     properties:
       id:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 619
-        description: "The id of the job. Primary key."
+        description: The id of the job. Primary key.
       storageinformation:
-        $ref: "#/definitions/retrievalTask"
-    description: "A storage infotmation record with the Id included"
+        $ref: '#/definitions/retrievalTask'
+    description: A storage infotmation record with the Id included
     example:
       storageinformation:
       - jobId: 1
-        jobStatus: "Completed"
+        jobStatus: Completed
         metadataId: 4
-        location: "/home/user7/file1"
-        requestedOn: "2018-06-22T10:11:12.000Z"
-        startedOn: "2018-07-26T07:03:14.404Z"
-        completedOn: "2018-07-26T07:03:32.037Z"
+        location: /home/user7/file1
+        requestedOn: '2018-06-22T10:11:12.000Z'
+        startedOn: '2018-07-26T07:03:14.404Z'
+        completedOn: '2018-07-26T07:03:32.037Z'
         appliedFilters:
-        - heading: "Latitude"
+        - heading: Latitude
           minimum: 50
           maximum: 55
-        - heading: "Longitude"
+        - heading: Longitude
           minimum: -1.5
           maximum: 1.5
-        contactType: "email"
-        contactDetails: "fred.smith@my.company.com"
+        contactType: email
+        contactDetails: fred.smith@my.company.com
       id: 619
   retrievalTask:
-    type: "object"
+    type: object
     properties:
       jobStatus:
-        type: "string"
-        description: "the current processing status of the retrieval task."
+        type: string
+        description: the current processing status of the retrieval task.
       metadataId:
-        type: "integer"
-        format: "int64"
-        description: "A numeric identifier linking back to the metadata for the dataset."
+        type: integer
+        format: int64
+        description: A numeric identifier linking back to the metadata for the dataset.
       location:
-        type: "string"
-        description: "The path/file name where the extracted dataste will be stored."
+        type: string
+        description: The path/file name where the extracted dataste will be stored.
       requestedOn:
-        type: "string"
-        format: "date-time"
-        description: "The date/time that th request for the dataset was submitted."
+        type: string
+        format: date-time
+        description: The date/time that th request for the dataset was submitted.
       startedOn:
-        type: "string"
-        format: "date-time"
-        description: "The date/time that the data retrieval task began executing."
+        type: string
+        format: date-time
+        description: The date/time that the data retrieval task began executing.
       completedOn:
-        type: "string"
-        format: "date-time"
-        description: "The date/time that the retrieval task was completed/failed."
+        type: string
+        format: date-time
+        description: The date/time that the retrieval task was completed/failed.
       appliedFilters:
-        type: "array"
-        description: "An array of filtering options to be applied to the dataset."
+        type: array
+        description: An array of filtering options to be applied to the dataset.
         items:
-          $ref: "#/definitions/filterrange"
+          $ref: '#/definitions/filterrange'
       contactType:
-        type: "string"
-        description: "The type of contact method used to send notifications to the\
-          \ user."
+        type: string
+        description: The type of contact method used to send notifications to the
+          user.
         maxLength: 10
       contactDetails:
-        type: "string"
-        description: "The name of the account for the specified contact type."
+        type: string
+        description: The name of the account for the specified contact type.
         maxLength: 100
-    description: "A record containing the required information to extract a specific\
-      \ dataset from the database and return it to the user."
+    description: A record containing the required information to extract a specific
+      dataset from the database and return it to the user.
     example:
     - jobId: 1
-      jobStatus: "Completed"
+      jobStatus: Completed
       metadataId: 4
-      location: "/home/user7/file1"
-      requestedOn: "2018-06-22T10:11:12.000Z"
-      startedOn: "2018-07-26T07:03:14.404Z"
-      completedOn: "2018-07-26T07:03:32.037Z"
+      location: /home/user7/file1
+      requestedOn: '2018-06-22T10:11:12.000Z'
+      startedOn: '2018-07-26T07:03:14.404Z'
+      completedOn: '2018-07-26T07:03:32.037Z'
       appliedFilters:
-      - heading: "Latitude"
+      - heading: Latitude
         minimum: 50
         maximum: 55
-      - heading: "Longitude"
+      - heading: Longitude
         minimum: -1.5
         maximum: 1.5
-      contactType: "email"
-      contactDetails: "fred.smith@my.company.com"
+      contactType: email
+      contactDetails: fred.smith@my.company.com
   retrievalTaskForPost:
-    type: "object"
+    type: object
     properties:
       jobStatus:
-        type: "string"
-        description: "the current processing status of the retrieval task."
+        type: string
+        description: the current processing status of the retrieval task.
       metadataId:
-        type: "integer"
-        format: "int64"
-        description: "A numeric identifier linking back to the metadata for the dataset."
+        type: integer
+        format: int64
+        description: A numeric identifier linking back to the metadata for the dataset.
       location:
-        type: "string"
-        description: "The path/file name where the extracted dataste will be stored."
+        type: string
+        description: The path/file name where the extracted dataste will be stored.
       contactType:
-        type: "string"
-        description: "The type of contact method used to send notifications to the\
-          \ user."
+        type: string
+        description: The type of contact method used to send notifications to the
+          user.
         maxLength: 10
       contactDetails:
-        type: "string"
-        description: "The name of the account for the specified contact type."
+        type: string
+        description: The name of the account for the specified contact type.
         maxLength: 100
-    description: "A record containing the required information to extract a specific\
-      \ dataset from the database and return it to the user. Only contains the fields\
-      \ the user needs to supply when creating the job"
+    description: A record containing the required information to extract a specific
+      dataset from the database and return it to the user. Only contains the fields
+      the user needs to supply when creating the job
     example:
     - metadataId: 4
-      location: "/home/user7/file1"
-      contactType: "email"
-      contactDetails: "fred.smith@my.company.com"
+      location: /home/user7/file1
+      contactType: email
+      contactDetails: fred.smith@my.company.com
   storageinformationWithId:
-    type: "object"
+    type: object
     properties:
       storageinformationId:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 619
-        description: "The id of the store information record. Primary key."
+        description: The id of the store information record. Primary key.
       storageinformation:
-        $ref: "#/definitions/storageinformation"
-    description: "A storage infotmation record with the Id included"
+        $ref: '#/definitions/storageinformation'
+    description: A storage infotmation record with the Id included
     example:
       storageinformation:
-        databaseSchema: "testschema"
+        databaseSchema: testschema
         metadataId: 37
-        databaseHost: "http://localhost:8090"
-        objectStoreHost: "http://localhost:8090"
-        objectStoreBucket: "testbucket"
+        databaseHost: http://localhost:8090
+        objectStoreHost: http://localhost:8090
+        objectStoreBucket: testbucket
       storageinformationId: 619
   storageinformation:
-    type: "object"
+    type: object
     properties:
       metadataId:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 37
-        description: "A link to the metadata information stored in the data catalogue."
+        description: A link to the metadata information stored in the data catalogue.
       databaseHost:
-        type: "string"
-        example: "http://localhost:8090"
-        description: "The host of the database"
+        type: string
+        example: http://localhost:8090
+        description: The host of the database
         maxLength: 100
       databaseSchema:
-        type: "string"
-        example: "testschema"
-        description: "The schema of the database"
+        type: string
+        example: testschema
+        description: The schema of the database
         maxLength: 100
       objectStoreHost:
-        type: "string"
-        example: "http://localhost:8090"
-        description: "The host of the object store"
+        type: string
+        example: http://localhost:8090
+        description: The host of the object store
         maxLength: 100
       objectStoreBucket:
-        type: "string"
-        example: "testbucket"
-        description: "The bucket of the object store"
+        type: string
+        example: testbucket
+        description: The bucket of the object store
         maxLength: 100
-    description: "The storage information describing where and how the dataset is\
-      \ stored and in which database."
+    description: The storage information describing where and how the dataset is stored
+      and in which database.
     example:
-      databaseSchema: "testschema"
+      databaseSchema: testschema
       metadataId: 37
-      databaseHost: "http://localhost:8090"
-      objectStoreHost: "http://localhost:8090"
-      objectStoreBucket: "testbucket"
+      databaseHost: http://localhost:8090
+      objectStoreHost: http://localhost:8090
+      objectStoreBucket: testbucket
   filterrange:
-    type: "object"
+    type: object
     properties:
       name:
-        type: "string"
-        example: "Height"
-        description: "The name of the column/row of data to be filtered."
+        type: string
+        example: Height
+        description: The name of the column/row of data to be filtered.
       minimum:
-        type: "string"
-        example: "100"
-        description: "The minimum value accepted by the filter. (stored as a string)"
+        type: string
+        example: '100'
+        description: The minimum value accepted by the filter. (stored as a string)
       maximum:
-        type: "string"
-        example: "180"
-        description: "The maximum value accepted by the filter. (stored as a string)"
-    description: "Information about a filter applied to a column/row of data. Its\
-      \ name and the minimum and maximum values to filter between."
+        type: string
+        example: '180'
+        description: The maximum value accepted by the filter. (stored as a string)
+    description: Information about a filter applied to a column/row of data. Its name
+      and the minimum and maximum values to filter between.
   license:
-    type: "object"
+    type: object
     properties:
       id:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 37
-        description: "A unique numeric identifier for each license."
+        description: A unique numeric identifier for each license.
       name:
-        type: "string"
-        example: "Apache license 2.0"
-        description: "The name of the licnese."
+        type: string
+        example: Apache license 2.0
+        description: The name of the licnese.
         maxLength: 50
       url:
-        type: "string"
-        format: "uri"
-        example: "https://www.apache.org/licenses/license-2.0.html"
-        description: "A URL pointing to a copy of the license agreement."
+        type: string
+        format: uri
+        example: https://www.apache.org/licenses/license-2.0.html
+        description: A URL pointing to a copy of the license agreement.
         maxLength: 256
-    description: "A list of valid licenses, creating a defined vocabulary."
+    description: A list of valid licenses, creating a defined vocabulary.
   organisation:
-    type: "object"
+    type: object
     properties:
       organisationid:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 28
-        description: "A unique numeric identifier for each organisation."
+        description: A unique numeric identifier for each organisation.
       name:
-        type: "string"
-        example: "Rutherford Appleton Laboratiory"
-        description: "The name of the organisation."
+        type: string
+        example: Rutherford Appleton Laboratiory
+        description: The name of the organisation.
         maxLength: 50
-    description: "The name of the organisation the point of contact belongs to."
+    description: The name of the organisation the point of contact belongs to.
     example:
       organisationid: 28
-      name: "Rutherford Appleton Laboratiory"
+      name: Rutherford Appleton Laboratiory
   pointofcontact:
-    type: "object"
+    type: object
     properties:
       name:
-        type: "string"
-        example: "Bob Smith"
-        description: "The name of the person or department responsible for the dataset/model."
+        type: string
+        example: Bob Smith
+        description: The name of the person or department responsible for the dataset/model.
         maxLength: 200
       emailaddress:
-        type: "string"
-        format: "email"
-        example: "enquiries@stfc.ac.uk"
-        description: "The email address of the person/department."
+        type: string
+        format: email
+        example: enquiries@stfc.ac.uk
+        description: The email address of the person/department.
       organisation:
-        $ref: "#/definitions/organisation"
-    description: "A person or department to contact for making enquiries."
+        $ref: '#/definitions/organisation'
+    description: A person or department to contact for making enquiries.
     example:
-      name: "Bob Smith"
+      name: Bob Smith
       organisation:
         organisationid: 28
-        name: "Rutherford Appleton Laboratiory"
-      emailaddress: "enquiries@stfc.ac.uk"
+        name: Rutherford Appleton Laboratiory
+      emailaddress: enquiries@stfc.ac.uk
   topic:
-    type: "object"
+    type: object
     properties:
       id:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 5
-        description: "A unique numeric identifier for each topic."
+        description: A unique numeric identifier for each topic.
       name:
-        type: "string"
-        example: "Business"
-        description: "The name of the topic."
+        type: string
+        example: Business
+        description: The name of the topic.
         maxLength: 200
-    description: "A word describing a general areas of work/research."
+    description: A word describing a general areas of work/research.
     example:
-      name: "Business"
+      name: Business
       id: 5
   metadataWithId:
-    type: "object"
+    type: object
     properties:
       metadataId:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 619
-        description: "The id of the metadata record. Primary key."
+        description: The id of the metadata record. Primary key.
       metadata:
-        $ref: "#/definitions/metadata"
-    description: "A metadata record for describing a dataset or model stored inm the\
-      \ NID."
+        $ref: '#/definitions/metadata'
+    description: A metadata record for describing a dataset or model stored inm the
+      NID.
     example:
       metadataId: 619
       metadata:
-        summary: "This population data provides information on various social characteristics\
-          \ of the region."
-        units: "kgms^-2"
-        title: "Oxford population data from 1980."
-        version: "1.0.3"
+        summary: This population data provides information on various social characteristics
+          of the region.
+        units: kgms^-2
+        title: Oxford population data from 1980.
+        version: 1.0.3
         parentId: 27
-        tags: "population, Oxford, 1980, water"
-        lastUpdated: "01/06/2018"
-        licenses: "GNU General Public license v3.0, Apache license Version 2.0"
+        tags: population, Oxford, 1980, water
+        lastUpdated: 01/06/2018
+        licenses: GNU General Public license v3.0, Apache license Version 2.0
         topic:
-          name: "Business"
+          name: Business
           id: 5
         additionalProperties:
-          latitude: "51.7520� N"
-          longitude: "1.2577� W"
-          land_area: "45.59 km�"
-          founded: "8th century"
+          latitude: 51.7520� N
+          longitude: 1.2577� W
+          land_area: 45.59 km�
+          founded: 8th century
           city_status: 1542
-          lord_mayor: "Councillor Jean Fooks"
+          lord_mayor: Councillor Jean Fooks
         numberRows: 4
-        fileFormat: "ASCII"
+        fileFormat: ASCII
         pointOfContact:
-          name: "Bob Smith"
+          name: Bob Smith
           organisation:
             organisationid: 28
-            name: "Rutherford Appleton Laboratiory"
-          emailaddress: "enquiries@stfc.ac.uk"
+            name: Rutherford Appleton Laboratiory
+          emailaddress: enquiries@stfc.ac.uk
   metadata:
-    type: "object"
+    type: object
     properties:
       parentId:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 27
-        description: "A link to an existing dataset that this one was derived from."
+        description: A link to an existing dataset that this one was derived from.
       title:
-        type: "string"
-        example: "Oxford population data from 1980."
-        description: "The title of the dataset/model."
+        type: string
+        example: Oxford population data from 1980.
+        description: The title of the dataset/model.
         maxLength: 100
       topic:
-        $ref: "#/definitions/topic"
+        $ref: '#/definitions/topic'
       version:
-        type: "string"
-        example: "1.0.3"
-        description: "The version identifier for this dataset/model."
+        type: string
+        example: 1.0.3
+        description: The version identifier for this dataset/model.
         maxLength: 20
       lastUpdated:
-        type: "string"
-        format: "date"
-        example: "01/06/2018"
-        description: "The date of when this dataset was created/modified."
+        type: string
+        format: date
+        example: 01/06/2018
+        description: The date of when this dataset was created/modified.
       pointOfContact:
-        $ref: "#/definitions/pointofcontact"
+        $ref: '#/definitions/pointofcontact'
       licenses:
-        type: "array"
-        example: "GNU General Public license v3.0, Apache license Version 2.0"
-        description: "The license agreements governing the dataset/model."
+        type: array
+        example: GNU General Public license v3.0, Apache license Version 2.0
+        description: The license agreements governing the dataset/model.
         items:
-          $ref: "#/definitions/license"
+          $ref: '#/definitions/license'
       summary:
-        type: "string"
-        example: "This population data provides information on various social characteristics\
-          \ of the region."
-        description: "A few sentences describing the dataset/model."
+        type: string
+        example: This population data provides information on various social characteristics
+          of the region.
+        description: A few sentences describing the dataset/model.
         maxLength: 1000
       fileFormat:
-        type: "string"
-        example: "ASCII"
-        description: "Describes the file format of the dataset."
+        type: string
+        example: ASCII
+        description: Describes the file format of the dataset.
         maxLength: 20
       units:
-        type: "string"
-        example: "kgms^-2"
-        description: "Describes the unit system that the data is measured in."
+        type: string
+        example: kgms^-2
+        description: Describes the unit system that the data is measured in.
         maxLength: 50
       numberRows:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
         example: 4
-        description: "The number of rows of data in the table."
+        description: The number of rows of data in the table.
       tags:
-        type: "string"
-        example: "population, Oxford, 1980, water"
-        description: "A collection of keywords describing the dataset to aid in searching\
-          \ for relevant datasets."
+        type: string
+        example: population, Oxford, 1980, water
+        description: A collection of keywords describing the dataset to aid in searching
+          for relevant datasets.
       additionalProperties:
-        type: "object"
+        type: object
         example:
-          latitude: "51.7520� N"
-          longitude: "1.2577� W"
-          land_area: "45.59 km�"
-          founded: "8th century"
+          latitude: 51.7520� N
+          longitude: 1.2577� W
+          land_area: 45.59 km�
+          founded: 8th century
           city_status: 1542
-          lord_mayor: "Councillor Jean Fooks"
-        description: "A collection of key/value pairs describing additional propeties\
-          \ of the dataset/model."
+          lord_mayor: Councillor Jean Fooks
+        description: A collection of key/value pairs describing additional propeties
+          of the dataset/model.
         additionalProperties:
-          type: "string"
-    description: "A metadata record for describing a dataset or model stored inm the\
-      \ NID."
+          type: string
+    description: A metadata record for describing a dataset or model stored inm the
+      NID.
     example:
-      summary: "This population data provides information on various social characteristics\
-        \ of the region."
-      units: "kgms^-2"
-      title: "Oxford population data from 1980."
-      version: "1.0.3"
+      summary: This population data provides information on various social characteristics
+        of the region.
+      units: kgms^-2
+      title: Oxford population data from 1980.
+      version: 1.0.3
       parentId: 27
-      tags: "population, Oxford, 1980, water"
-      lastUpdated: "01/06/2018"
-      licenses: "GNU General Public license v3.0, Apache license Version 2.0"
+      tags: population, Oxford, 1980, water
+      lastUpdated: 01/06/2018
+      licenses: GNU General Public license v3.0, Apache license Version 2.0
       topic:
-        name: "Business"
+        name: Business
         id: 5
       additionalProperties:
-        latitude: "51.7520� N"
-        longitude: "1.2577� W"
-        land_area: "45.59 km�"
-        founded: "8th century"
+        latitude: 51.7520� N
+        longitude: 1.2577� W
+        land_area: 45.59 km�
+        founded: 8th century
         city_status: 1542
-        lord_mayor: "Councillor Jean Fooks"
+        lord_mayor: Councillor Jean Fooks
       numberRows: 4
-      fileFormat: "ASCII"
+      fileFormat: ASCII
       pointOfContact:
-        name: "Bob Smith"
+        name: Bob Smith
         organisation:
           organisationid: 28
-          name: "Rutherford Appleton Laboratiory"
-        emailaddress: "enquiries@stfc.ac.uk"
+          name: Rutherford Appleton Laboratiory
+        emailaddress: enquiries@stfc.ac.uk
 parameters:
   MetaDataId:
-    name: "id"
-    in: "query"
-    description: "Id of metadata record."
+    name: id
+    in: query
+    description: Id of metadata record.
     required: true
-    type: "integer"
-    format: "int64"
+    type: integer
+    format: int64
   JobId:
-    name: "id"
-    in: "query"
-    description: "Job id of the dataset retrieval task."
+    name: id
+    in: query
+    description: Job id of the dataset retrieval task.
     required: true
-    type: "integer"
-    format: "int64"
+    type: integer
+    format: int64
   StorageInfoId:
-    name: "id"
-    in: "query"
-    description: "Job id of the dataset retrieval task."
+    name: id
+    in: query
+    description: Job id of the dataset retrieval task.
     required: true
-    type: "integer"
-    format: "int64"
+    type: integer
+    format: int64
 externalDocs:
-  description: "The DAFNI NID API Documentation"
-  url: "http://www.dafni.ac.uk/api/nid"
+  description: The DAFNI NID API Documentation
+  url: http://www.dafni.ac.uk/api/nid

@@ -1,4 +1,3 @@
-
 ################################################################################
 # Author: Steven Pickering                                                     #
 # Created On: 01/06/2018                                                       #
@@ -13,14 +12,15 @@
 
 # Swagger Version
 
-swagger: "2.0"
+swagger: '2.0'
 
 # Information Block
 
 info:
-  version: "1.0"
+  version: '1.0'
   title: DAFNI NID API
-  description: This will provide the back-end services to manage the NID metadata data catalogue.
+  description: This will provide the back-end services to manage the NID metadata
+    data catalogue.
   termsOfService: http://www.dafni.ac.uk/api_terms_of_service
   license:
     name: Apache 2.0
@@ -28,11 +28,11 @@ info:
   contact:
     name: DAFNI Support
     email: support@dafni.ac.uk
-    url:  http://www.dafni.ac.uk/contact_us
-    
+    url: http://www.dafni.ac.uk/contact_us
+
 # Host Running The API And The Relative PAth For API Calls
 
-host: nid.dafni.ac.uk
+host: dev.dafni.ac.uk
 basePath: /
 
 # Communication Schemes That Can Be Used
@@ -70,39 +70,41 @@ paths:
   /organisations/{id}:
     get:
       summary: Display Single Organisation
-      description: Queries the database for the specified record and returns a JSON formatted string containg the Organisation
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the Organisation
       operationId: ViewOneOrganisation
       tags:
       - Organisation
       parameters:
-        - name: id
-          in: path
-          description: Id of the organisation
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the organisation
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: Successfully viewed the Organisation.
           schema:
-              $ref: "#/definitions/organisation"
+            $ref: '#/definitions/organisation'
         400:
           description: Invalid organisation request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Organisation not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing organisation.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /organisations:
     get:
       summary: Display All  Organisations
-      description: Queries the database for the all records and returns a JSON formatted string
+      description: Queries the database for the all records and returns a JSON formatted
+        string
       operationId: ViewAllOrganisation
       tags:
       - Organisation
@@ -110,19 +112,19 @@ paths:
         200:
           description: Successfully viewed the Organisation.
           schema:
-              $ref: "#/definitions/organisation"
+            $ref: '#/definitions/organisation'
         400:
           description: Invalid organisation request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Organisation not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing organisation.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
     post:
       summary: Creates A Organisation Record
       description: Creates a new organisation record from the input fields provided.
@@ -130,51 +132,50 @@ paths:
       tags:
       - Organisation
       parameters:
-        - in: body
-          name: organisation
-          description: "Create a new organisation record"
-          schema:
-             $ref: "#/definitions/organisationName"
+      - in: body
+        name: organisation
+        description: Create a new organisation record
+        schema:
+          $ref: '#/definitions/organisationName'
       responses:
         200:
           description: The organisation record was created successfully.
           schema:
-            $ref: "#/definitions/organisation"
+            $ref: '#/definitions/organisation'
         400:
           description: Invalid organisation create Parameters - no POST body.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the organisation
           schema:
-            $ref: "#/definitions/httperror"    
-            
+            $ref: '#/definitions/httperror'
     put:
       summary: Updates A organisation Record
-      description: Updates an existing organisation record with the input fields provided for the organisationId provided
+      description: Updates an existing organisation record with the input fields provided
+        for the organisationId provided
       operationId: OrganisationUpdate
       tags:
       - Organisation
       parameters:
-        - in: body
-          name: organisationId
-          description: "Update an existing organisation record"
-          schema:
-              $ref: "#/definitions/organisation"
+      - in: body
+        name: organisationId
+        description: Update an existing organisation record
+        schema:
+          $ref: '#/definitions/organisation'
       responses:
         200:
           description: The organisation record was updated successfully.
           schema:
-              $ref: "#/definitions/organisation"
+            $ref: '#/definitions/organisation'
         400:
           description: Invalid organisation updated Parameters.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the organisation
           schema:
-            $ref: "#/definitions/httperror"   
-            
+            $ref: '#/definitions/httperror'
 
 #==========#
 # licenses #
@@ -183,39 +184,41 @@ paths:
   /licenses/{id}:
     get:
       summary: Display Single license
-      description: Queries the database for the specified record and returns a JSON formatted string containg the license.
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the license.
       operationId: ViewOnelicense
       tags:
       - License
       parameters:
-        - name: id
-          in: path
-          description: Id of the licence
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the licence
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: Successfully viewed the license.
           schema:
-              $ref: "#/definitions/license"
+            $ref: '#/definitions/license'
         400:
           description: Invalid license request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: license not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing license.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /licenses:
     get:
       summary: Display All license
-      description: Queries the database for the all records and returns a JSON formatted string 
+      description: Queries the database for the all records and returns a JSON formatted
+        string
       operationId: ViewALLlicense
       tags:
       - License
@@ -223,19 +226,19 @@ paths:
         200:
           description: Successfully viewed the license.
           schema:
-              $ref: "#/definitions/license"
+            $ref: '#/definitions/license'
         400:
           description: Invalid license request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: license not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing license.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
     post:
       summary: Creates A license Record
       description: Creates a new license record from the input fields provided.
@@ -243,51 +246,50 @@ paths:
       tags:
       - License
       parameters:
-        - in: body
-          name: license
-          description: "Create a new license record"
-          schema:
-             $ref: "#/definitions/licenseWithoutId"
+      - in: body
+        name: license
+        description: Create a new license record
+        schema:
+          $ref: '#/definitions/licenseWithoutId'
       responses:
         200:
           description: The license record was created successfully.
           schema:
-            $ref: "#/definitions/license"
+            $ref: '#/definitions/license'
         400:
           description: Invalid license create Parameters - no POST body.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the license
           schema:
-            $ref: "#/definitions/httperror"    
-            
+            $ref: '#/definitions/httperror'
     put:
       summary: Updates A license Record
-      description: Updates an existing license record with the input fields provided for the license provided
+      description: Updates an existing license record with the input fields provided
+        for the license provided
       operationId: licenseUpdate
       tags:
       - License
       parameters:
-        - in: body
-          name: license
-          description: "Update an existing license record"
-          schema:
-              $ref: "#/definitions/license"
+      - in: body
+        name: license
+        description: Update an existing license record
+        schema:
+          $ref: '#/definitions/license'
       responses:
         200:
           description: The license record was updated successfully.
           schema:
-              $ref: "#/definitions/license"
+            $ref: '#/definitions/license'
         400:
           description: Invalid license updated Parameters.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the license
           schema:
-            $ref: "#/definitions/httperror"   
-            
+            $ref: '#/definitions/httperror'
 
 #========#
 # Topics #
@@ -296,39 +298,41 @@ paths:
   /topics/{id}:
     get:
       summary: Display Single Topic
-      description: Queries the database for the specified record and returns a JSON formatted string containg the topic.
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the topic.
       operationId: ViewOneTopic
       tags:
       - Topic
       parameters:
-        - name: id
-          in: path
-          description: Id of the topic
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the topic
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: Successfully viewed the Topic.
           schema:
-              $ref: "#/definitions/topic"
+            $ref: '#/definitions/topic'
         400:
           description: Invalid Topic request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Topic not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing topic.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /topics:
     get:
       summary: Display All Topic
-      description: Queries the database for all records and returns a JSON formatted string
+      description: Queries the database for all records and returns a JSON formatted
+        string
       operationId: ViewAllTopic
       tags:
       - Topic
@@ -336,19 +340,19 @@ paths:
         200:
           description: Successfully viewed the Topic.
           schema:
-              $ref: "#/definitions/topic"
+            $ref: '#/definitions/topic'
         400:
           description: Invalid Topic request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Topic not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing topic.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
     post:
       summary: Creates A Topic Record
       description: Creates a new topic record from the input fields provided.
@@ -356,51 +360,50 @@ paths:
       tags:
       - Topic
       parameters:
-        - in: body
-          name: topic
-          description: "Create a new topic record"
-          schema:
-             $ref: "#/definitions/topic"
+      - in: body
+        name: topic
+        description: Create a new topic record
+        schema:
+          $ref: '#/definitions/topic'
       responses:
         200:
           description: The metadata record was created successfully.
           schema:
-            $ref: "#/definitions/topic"
+            $ref: '#/definitions/topic'
         400:
           description: Invalid metadata create Parameters - no POST body.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the metadata
           schema:
-            $ref: "#/definitions/httperror"    
-            
+            $ref: '#/definitions/httperror'
     put:
       summary: Updates A Topic Record
-      description: Updates an existing topic record with the input fields provided for the topicId provided
+      description: Updates an existing topic record with the input fields provided
+        for the topicId provided
       operationId: TopicUpdate
       tags:
       - Topic
       parameters:
-        - in: body
-          name: topicId
-          description: "Update an existing topic record"
-          schema:
-              $ref: "#/definitions/topic"
+      - in: body
+        name: topicId
+        description: Update an existing topic record
+        schema:
+          $ref: '#/definitions/topic'
       responses:
         200:
           description: The metadata record was updated successfully.
           schema:
-              $ref: "#/definitions/topic"
+            $ref: '#/definitions/topic'
         400:
           description: Invalid metadata updated Parameters.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the metadata
           schema:
-            $ref: "#/definitions/httperror"   
-   
+            $ref: '#/definitions/httperror'
 #==========#
 # Contacts #
 #==========#
@@ -408,39 +411,41 @@ paths:
   /contacts/{id}:
     get:
       summary: Display Single Contact
-      description: Queries the database for the specified record and returns a JSON formatted string containg the point of contact
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the point of contact
       operationId: ViewOneContact
       tags:
       - Contacts
       parameters:
-        - name: id
-          in: path
-          description: Id of the contact
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the contact
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: Successfully viewed the Contact.
           schema:
-              $ref: "#/definitions/pointofcontactWithId"
+            $ref: '#/definitions/pointofcontactWithId'
         400:
           description: Invalid Topic request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Topic not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing topic.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /contacts:
     get:
       summary: Display All Contact
-      description: Queries the database for the records and returns a JSON formatted string containg the point of contact
+      description: Queries the database for the records and returns a JSON formatted
+        string containg the point of contact
       operationId: ViewManyContacts
       tags:
       - Contacts
@@ -448,19 +453,19 @@ paths:
         200:
           description: Successfully viewed the Contact.
           schema:
-              $ref: "#/definitions/pointofcontactWithId"
+            $ref: '#/definitions/pointofcontactWithId'
         400:
           description: Invalid Topic request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Topic not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing topic.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
     post:
       summary: Creates A Contact Record
       description: Creates a new contact record from the input fields provided.
@@ -468,50 +473,50 @@ paths:
       tags:
       - Contacts
       parameters:
-        - in: body
-          name: topic
-          description: "Create a new contact record"
-          schema:
-             $ref: "#/definitions/pointofcontact"
+      - in: body
+        name: topic
+        description: Create a new contact record
+        schema:
+          $ref: '#/definitions/pointofcontact'
       responses:
         200:
           description: The contact record was created successfully.
           schema:
-            $ref: "#/definitions/pointofcontactWithId"
+            $ref: '#/definitions/pointofcontactWithId'
         400:
           description: Invalid contact create Parameters - no POST body.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the metadata
           schema:
-            $ref: "#/definitions/httperror"    
-            
+            $ref: '#/definitions/httperror'
     put:
       summary: Updates A Contact Record
-      description: Updates an existing contact  record with the input fields provided for the contactid provided
+      description: Updates an existing contact  record with the input fields provided
+        for the contactid provided
       operationId: ContactUpdate
       tags:
       - Contacts
       parameters:
-        - in: body
-          name: pointofcontact
-          description: "Update an existing contact record"
-          schema:
-              $ref: "#/definitions/pointofcontactWithId"
+      - in: body
+        name: pointofcontact
+        description: Update an existing contact record
+        schema:
+          $ref: '#/definitions/pointofcontactWithId'
       responses:
         200:
           description: The contact record was updated successfully.
           schema:
-              $ref: "#/definitions/pointofcontactWithId"
+            $ref: '#/definitions/pointofcontactWithId'
         400:
           description: Invalid metadata updated Parameters.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the metadata
           schema:
-            $ref: "#/definitions/httperror"           
+            $ref: '#/definitions/httperror'
 #===================#
 # Metadata View One #
 #===================#
@@ -519,39 +524,41 @@ paths:
   /MetaData/{id}:
     get:
       summary: Display Single Metadata
-      description: Queries the database for the specified record and returns a JSON formatted string containg the metadata.
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the metadata.
       operationId: ViewOneMetadata
       tags:
       - Metadata
       parameters:
-        - name: id
-          in: path
-          description: Id of the metadata
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the metadata
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: Successfully viewed the metadata.
           schema:
-              $ref: "#/definitions/metadataWithId"
+            $ref: '#/definitions/metadataWithId'
         400:
           description: Invalid metadata request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Metadata not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing metadata.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /MetaData:
     get:
       summary: Display All Metadata
-      description: Queries the database for the specified record and returns a JSON formatted string containg the metadata.
+      description: Queries the database for the specified record and returns a JSON
+        formatted string containg the metadata.
       operationId: ViewAllMetadata
       tags:
       - Metadata
@@ -559,19 +566,19 @@ paths:
         200:
           description: Successfully viewed the metadata.
           schema:
-              $ref: "#/definitions/metadataWithId"
+            $ref: '#/definitions/metadataWithId'
         400:
           description: Invalid metadata request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         404:
           description: Metadata not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing metadata.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
     post:
       summary: Creates A Metadata Record
@@ -580,115 +587,115 @@ paths:
       tags:
       - Metadata
       parameters:
-        - in: body
-          name: metadata
-          description: "Create a new metadata record"
-          schema:
-             $ref: "#/definitions/metadata"
+      - in: body
+        name: metadata
+        description: Create a new metadata record
+        schema:
+          $ref: '#/definitions/metadata'
       responses:
         200:
           description: The metadata record was created successfully.
           schema:
-            $ref: "#/definitions/metadataWithId"
+            $ref: '#/definitions/metadataWithId'
         400:
           description: Invalid metadata create Parameters - no POST body.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the metadata
           schema:
-            $ref: "#/definitions/httperror"    
+            $ref: '#/definitions/httperror'
     put:
       summary: Updates A Metadata Record
-      description: Updates an existing metadata record with the input fields provided for the metadataId provided
+      description: Updates an existing metadata record with the input fields provided
+        for the metadataId provided
       operationId: MetadataUpdate
       tags:
       - Metadata
       parameters:
-        - in: body
-          name: metadata
-          description: "Update an existing metadata record"
-          schema:
-              $ref: "#/definitions/metadataWithId"
+      - in: body
+        name: metadata
+        description: Update an existing metadata record
+        schema:
+          $ref: '#/definitions/metadataWithId'
       responses:
         200:
           description: The metadata record was updated successfully.
           schema:
-              $ref: "#/definitions/metadataWithId"
+            $ref: '#/definitions/metadataWithId'
         400:
           description: Invalid metadata updated Parameters.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the metadata
           schema:
-            $ref: "#/definitions/httperror"   
-      
-  /MetaData/Search:      
+            $ref: '#/definitions/httperror'
+  /MetaData/Search:
     get:
       summary: Search Metadata
-      description: Searches the data catalog for entries matching the search terms. leaving all parameters blank will return all datasets
+      description: Searches the data catalog for entries matching the search terms.
+        leaving all parameters blank will return all datasets
       operationId: SearchMetadata
       tags:
       - Metadata
       parameters:
-        - $ref: "#/parameters/Keywords"
-        - $ref: "#/parameters/MinSize"
-        - $ref: "#/parameters/MaxSize"
-        - $ref: "#/parameters/MinDate"
-        - $ref: "#/parameters/MaxDate"
-        - $ref: "#/parameters/Organisations"
-        - $ref: "#/parameters/licenses"
-        - $ref: "#/parameters/Topics"
-   
+      - $ref: '#/parameters/Keywords'
+      - $ref: '#/parameters/MinSize'
+      - $ref: '#/parameters/MaxSize'
+      - $ref: '#/parameters/MinDate'
+      - $ref: '#/parameters/MaxDate'
+      - $ref: '#/parameters/Organisations'
+      - $ref: '#/parameters/licenses'
+      - $ref: '#/parameters/Topics'
       responses:
         200:
           description: A list of matching metadata objects.
           schema:
-              type: array
-              items:
-                $ref: "#/definitions/metadataWithId"
+            type: array
+            items:
+              $ref: '#/definitions/metadataWithId'
         401:
           description: User not authorised to access dataset.
           schema:
-            $ref: "#/definitions/httpauthorisationerror"
+            $ref: '#/definitions/httpauthorisationerror'
         404:
           description: Metadata not found.
           schema:
-            $ref: "#/definitions/httpnotfounderror"
+            $ref: '#/definitions/httpnotfounderror'
         default:
           description: Unexpected error occurred accessing metadata.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /Jobs/{id}:
     get:
       summary: View Single Status
-      description: Queries the data store and returns the status of the retrieval task.
+      description: Queries the data store and returns the status of the retrieval
+        task.
       operationId: RequestStatusViewOne
       tags:
       - Retrieval Task
       parameters:
-        - name: id
-          in: path
-          description: Id of the Job
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the Job
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: Status of the dataset retrieval task.
           schema:
-            $ref: "#/definitions/retrievaltaskWithId"
+            $ref: '#/definitions/retrievaltaskWithId'
         400:
           description: Invalid status request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing dataset retrieval task.
           schema:
-            $ref: "#/definitions/httperror"
-            
+            $ref: '#/definitions/httperror'
   /Jobs:
     get:
       summary: View Many Jobs
@@ -702,11 +709,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/retrievalTask"
+              $ref: '#/definitions/retrievalTask'
         default:
           description: Unexpected error occurred accessing dataset retrieval tasks.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
     post:
       summary: Creates The Job
@@ -715,79 +722,80 @@ paths:
       tags:
       - Jobs
       parameters:
-        - in: body
-          name: metadata
-          description: "Update an existing metadata record"
-          schema:
-            $ref: "#/definitions/retrievalTask"
+      - in: body
+        name: metadata
+        description: Update an existing metadata record
+        schema:
+          $ref: '#/definitions/retrievalTask'
       responses:
         200:
           description: The entire dataset retrieval task including the updated status.
           schema:
-            $ref: "#/definitions/retrievaltaskWithId"
+            $ref: '#/definitions/retrievaltaskWithId'
         400:
           description: Invalid status request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing dataset retrieval task.
           schema:
-            $ref: "#/definitions/httperror"
-            
+            $ref: '#/definitions/httperror'
     put:
       summary: Updates The Job Status
-      description: Retrieves the retrieval task from the data store and changes the job status to either "Running", "Completed" or "Failed".
+      description: Retrieves the retrieval task from the data store and changes the
+        job status to either "Running", "Completed" or "Failed".
       operationId: UpdateStatus
       tags:
       - Retrieval Task
       parameters:
-        - in: body
-          name: metadata
-          description: "Update an existing metadata record"
-          schema:
-            $ref: "#/definitions/retrievaltaskWithId"
+      - in: body
+        name: metadata
+        description: Update an existing metadata record
+        schema:
+          $ref: '#/definitions/retrievaltaskWithId'
       responses:
         200:
           description: The entire dataset retrieval task including the updated status.
           schema:
-            $ref: "#/definitions/retrievaltaskWithId"
+            $ref: '#/definitions/retrievaltaskWithId'
         400:
           description: Invalid status request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing dataset retrieval task.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
 
   /StorageInformation/{id}:
     get:
       summary: View Single Storage Information
-      description: Queries the data store and returns the storage information of the specified dataset
+      description: Queries the data store and returns the storage information of the
+        specified dataset
       operationId: StorageInformationViewOne
       tags:
       - Data Store
       parameters:
-        - name: id
-          in: path
-          description: Id of the storage information record
-          required: true
-          type: integer
-          format: int64
+      - name: id
+        in: path
+        description: Id of the storage information record
+        required: true
+        type: integer
+        format: int64
       responses:
         200:
           description: The storage information for the specified dataset.
           schema:
-            $ref: "#/definitions/storageinformationWithId"
+            $ref: '#/definitions/storageinformationWithId'
         400:
           description: Invalid storage information request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the storage information.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
   /StorageInformation:
     get:
@@ -802,63 +810,65 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/storageinformationWithId"
+              $ref: '#/definitions/storageinformationWithId'
         default:
           description: Unexpected error occurred accessing the storage information.
           schema:
-            $ref: "#/definitions/httperror"
+            $ref: '#/definitions/httperror'
 
     post:
       summary: Creates A Storage Information Record
-      description: Creates a new storage information record from the input fields provided.
+      description: Creates a new storage information record from the input fields
+        provided.
       operationId: StorageInformationCreate
       tags:
       - Data Store
       parameters:
-        - in: body
-          name: storageinformation
-          description: "Update an existing storage information record"
-          schema:
-            $ref: "#/definitions/storageinformation"
+      - in: body
+        name: storageinformation
+        description: Update an existing storage information record
+        schema:
+          $ref: '#/definitions/storageinformation'
       responses:
         200:
           description: The storage information fwas created successfully.
           schema:
-            $ref: "#/definitions/storageinformationWithId"
+            $ref: '#/definitions/storageinformationWithId'
         400:
           description: Invalid storage information request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the storage information.
           schema:
-            $ref: "#/definitions/httperror"    
+            $ref: '#/definitions/httperror'
 
     put:
       summary: Updates A Storage Information Record
-      description: Updates an existing storage information record using the input fields provided.
+      description: Updates an existing storage information record using the input
+        fields provided.
       operationId: StorageInformationUpdate
       tags:
       - Data Store
       parameters:
-        - in: body
-          name: storageinformation
-          description: "Update an existing storage information record"
-          schema:
-             $ref: "#/definitions/storageinformationWithId"
+      - in: body
+        name: storageinformation
+        description: Update an existing storage information record
+        schema:
+          $ref: '#/definitions/storageinformationWithId'
       responses:
         200:
           description: The storage information fwas created successfully.
           schema:
-            $ref: "#/definitions/storageinformationWithId"
+            $ref: '#/definitions/storageinformationWithId'
         400:
           description: Invalid storage information request.
           schema:
-            $ref: "#/definitions/httpbadrequesterror"
+            $ref: '#/definitions/httpbadrequesterror'
         default:
           description: Unexpected error occurred accessing the storage information.
           schema:
-            $ref: "#/definitions/httperror" 
+            $ref: '#/definitions/httperror'
 
 ###############
 # Definitions #
@@ -914,7 +924,7 @@ definitions:
         type: string
         maxLength: 100
         example: Not Authorised Error Message
-        
+
   httpnotfounderror:
     description: An object returning the HTTP error code and associated information.
     type: object
@@ -944,10 +954,10 @@ definitions:
         format: int64
         example: 619
       storageinformation:
-          $ref: "#/definitions/retrievalTask"
-          
+        $ref: '#/definitions/retrievalTask'
   retrievalTask:
-    description: A record containing the required information to extract a specific dataset from the database and return it to the user.
+    description: A record containing the required information to extract a specific
+      dataset from the database and return it to the user.
     type: object
     properties:
       jobStatus:
@@ -976,9 +986,10 @@ definitions:
         description: An array of filtering options to be applied to the dataset.
         type: array
         items:
-          $ref: "#/definitions/filterrange"
+          $ref: '#/definitions/filterrange'
       contactType:
-        description: The type of contact method used to send notifications to the user.
+        description: The type of contact method used to send notifications to the
+          user.
         type: string
         maxLength: 10
       contactDetails:
@@ -986,22 +997,22 @@ definitions:
         type: string
         maxLength: 100
     example:
-      - jobId: 1
-        jobStatus: Completed
-        metadataId: 4
-        location: /home/user7/file1
-        requestedOn: 2018-06-22T10:11:12Z
-        startedOn: 2018-07-26T07:03:14.404647Z
-        completedOn: 2018-07-26T07:03:32.037101Z
-        appliedFilters:
-          - heading: Latitude
-            minimum: 50.0
-            maximum: 55.0
-          - heading: Longitude
-            minimum: -1.5
-            maximum: 1.5
-        contactType: email
-        contactDetails: fred.smith@my.company.com
+    - jobId: 1
+      jobStatus: Completed
+      metadataId: 4
+      location: /home/user7/file1
+      requestedOn: 2018-06-22T10:11:12Z
+      startedOn: 2018-07-26T07:03:14.404647Z
+      completedOn: 2018-07-26T07:03:32.037101Z
+      appliedFilters:
+      - heading: Latitude
+        minimum: 50.0
+        maximum: 55.0
+      - heading: Longitude
+        minimum: -1.5
+        maximum: 1.5
+      contactType: email
+      contactDetails: fred.smith@my.company.com
 
 #=============================#
 # Storage Information with ID #
@@ -1017,14 +1028,15 @@ definitions:
         format: int64
         example: 619
       storageinformation:
-          $ref: "#/definitions/storageinformation"
+        $ref: '#/definitions/storageinformation'
 
 #=====================#
 # Storage Information #
 #=====================#
 
   storageinformation:
-    description: The storage information describing where and how the dataset is stored and in which database.
+    description: The storage information describing where and how the dataset is stored
+      and in which database.
     type: object
     properties:
       metadataId:
@@ -1062,7 +1074,8 @@ definitions:
 #==============#
 
   filterrange:
-    description: Information about a filter applied to a column/row of data. Its name and the minimum and maximum values to filter between.
+    description: Information about a filter applied to a column/row of data. Its name
+      and the minimum and maximum values to filter between.
     type: object
     properties:
       name:
@@ -1092,10 +1105,10 @@ definitions:
         example: 37
       name:
         description: The name of the licnese.
-        type: string  
+        type: string
         maxLength: 50
         example: Apache license 2.0
-      url: 
+      url:
         description: A URL pointing to a copy of the license agreement.
         type: string
         format: uri
@@ -1108,16 +1121,16 @@ definitions:
     properties:
       name:
         description: The name of the licnese.
-        type: string  
+        type: string
         maxLength: 50
         example: Apache license 2.0
-      url: 
+      url:
         description: A URL pointing to a copy of the license agreement.
         type: string
         format: uri
         maxLength: 256
         example: https://www.apache.org/licenses/license-2.0.html
-        
+
 #==============#
 # Organisation #
 #==============#
@@ -1146,13 +1159,13 @@ definitions:
         type: string
         maxLength: 50
         example: Rutherford Appleton Laboratiory
-        
+
 #==================#
 # Point Of Contact #
 #==================#
 
   pointofcontactWithId:
-    description: A point of contact record 
+    description: A point of contact record
     type: object
     properties:
       id:
@@ -1161,8 +1174,7 @@ definitions:
         format: int64
         example: 619
       metadata:
-          $ref: "#/definitions/pointofcontact"
-          
+        $ref: '#/definitions/pointofcontact'
   pointofcontact:
     description: A person or department to contact for making enquiries.
     type: object
@@ -1178,7 +1190,7 @@ definitions:
         format: email
         example: enquiries@stfc.ac.uk
       organisation:
-        $ref: "#/definitions/organisation"
+        $ref: '#/definitions/organisation'
 
 #=======#
 # Topic #
@@ -1200,7 +1212,8 @@ definitions:
         example: Business
 
   metadataWithId:
-    description: A metadata record for describing a dataset or model stored inm the NID.
+    description: A metadata record for describing a dataset or model stored inm the
+      NID.
     type: object
     properties:
       metadataId:
@@ -1209,18 +1222,17 @@ definitions:
         format: int64
         example: 619
       metadata:
-          $ref: "#/definitions/metadata"
-        
+        $ref: '#/definitions/metadata'
 
 #==========#
 # Metadata #
 #==========#
 
   metadata:
-    description: A metadata record for describing a dataset or model stored inm the NID.
+    description: A metadata record for describing a dataset or model stored inm the
+      NID.
     type: object
     properties:
-    
 # Common Fields
 
       parentId:
@@ -1234,7 +1246,7 @@ definitions:
         maxLength: 100
         example: Oxford population data from 1980.
       topic:
-        $ref: "#/definitions/topic"
+        $ref: '#/definitions/topic'
       version:
         description: The version identifier for this dataset/model.
         type: string
@@ -1246,21 +1258,21 @@ definitions:
         format: date
         example: 01/06/2018
       pointOfContact:
-        $ref: "#/definitions/pointofcontact"
+        $ref: '#/definitions/pointofcontact'
       licenses:
         description: The license agreements governing the dataset/model.
         type: array
         items:
-          $ref: "#/definitions/license"
+          $ref: '#/definitions/license'
         example: GNU General Public license v3.0, Apache license Version 2.0
       summary:
         description: A few sentences describing the dataset/model.
         maxLength: 1000
         type: string
-        example: This population data provides information on various social characteristics of the region.
- 
+        example: This population data provides information on various social characteristics
+          of the region.
+
  # Dataset Specific Fields
- 
       fileFormat:
         description: Describes the file format of the dataset.
         type: string
@@ -1277,11 +1289,13 @@ definitions:
         format: int64
         example: 4
       tags:
-        description: A collection of keywords describing the dataset to aid in searching for relevant datasets.
+        description: A collection of keywords describing the dataset to aid in searching
+          for relevant datasets.
         type: string
         example: population, Oxford, 1980, water
       additionalProperties:
-        description: A collection of key/value pairs describing additional propeties of the dataset/model.
+        description: A collection of key/value pairs describing additional propeties
+          of the dataset/model.
         type: object
         additionalProperties:
           type: string
@@ -1292,7 +1306,7 @@ definitions:
           founded: 8th century
           city_status: 1542
           lord_mayor: Councillor Jean Fooks
-      
+
 
 ##########################################
 # Any reusable parameters should go here #
@@ -1306,7 +1320,7 @@ parameters:
     required: true
     type: integer
     format: int64
-    
+
   licenseId:
     name: id
     in: query
@@ -1314,7 +1328,7 @@ parameters:
     required: true
     type: integer
     format: int64
-    
+
   TopicId:
     name: id
     in: query
@@ -1322,7 +1336,7 @@ parameters:
     required: true
     type: integer
     format: int64
-    
+
   PointOfContactId:
     name: id
     in: query
@@ -1330,7 +1344,7 @@ parameters:
     required: true
     type: integer
     format: int64
-    
+
   MetaDataId:
     name: id
     in: query
@@ -1338,14 +1352,14 @@ parameters:
     required: true
     type: integer
     format: int64
-    
-  Keywords: 
+
+  Keywords:
     name: keywords
     in: query
     description: A keyword to search against the various fields.
     required: false
     type: string
-    
+
   MinSize:
     name: minsize
     in: query
@@ -1353,7 +1367,7 @@ parameters:
     required: false
     type: integer
     format: int64
-  
+
   MaxSize:
     name: maxsize
     in: query
@@ -1361,7 +1375,7 @@ parameters:
     required: false
     type: integer
     format: int64
-    
+
   MinDate:
     name: mindate
     in: query
@@ -1369,7 +1383,7 @@ parameters:
     required: false
     type: string
     format: date-time
-  
+
   MaxDate:
     name: maxdate
     in: query
@@ -1377,29 +1391,30 @@ parameters:
     required: false
     type: string
     format: date-time
-    
+
   Organisations:
     name: organisations
     in: query
     description: The name of the organisation which manaegs the dataset.
     required: false
     type: string
-    
+
   licenses:
     name: licenses
     in: query
     description: The name of the license which governs access to the dataset.
     required: false
     type: string
-    
+
   Topics:
     name: topics
     in: query
-    description: The general topic which covers the field of work associated with the dataset.
+    description: The general topic which covers the field of work associated with
+      the dataset.
     required: false
     type: string
 
-  Location:  
+  Location:
     name: location
     in: query
     description: The path/file location to store the retrieved dataset.
@@ -1434,12 +1449,12 @@ parameters:
     required: true
     type: integer
     format: int64
-    
+
   JobStatus:
     name: jobStatus
     in: query
     description: The updated job status of the retrieval task.
-    required: True  
+    required: true
     type: string
 
   StorageInfoId:
@@ -1449,4 +1464,3 @@ parameters:
     required: true
     type: integer
     format: int64
-    
